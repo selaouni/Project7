@@ -1,6 +1,6 @@
 import csv
-from tqdm import tqdm
 from itertools import combinations
+from time import time
 
 
 
@@ -14,27 +14,33 @@ def read_csv_file():
         return data_list
 
 
-def calculate_profit(combinaison):
+def calculate_profit(combination):
     profits = []
-    for i in combinaison:
-        profits.append(i[1] * i[2] / 100)
+    for share in combination:
+        profits.append(share[1] * share[2] / 100)
+
     return sum(profits)
 
 
-def calculate_cost(combinaison):
+def calculate_cost(combination):
     cost = []
-    for i in combinaison:
-        cost.append(i[1])
+    for share in combination:
+        cost.append(share[1])
+
+
     return sum(cost)
 
 
 Max_invest = 500
 def best_combination(data_list):
+    start = time()
     profit = 0
-    best_combinaison = []
+    best_comb = []
 
-    for i in tqdm(range(20)):
+    for i in range(len(data_list)):
         combs = combinations(data_list, i+1)
+        # print(i+1)
+        # print("test de combinaison",list(combs))
 
         for comb in combs:
             total_cost = calculate_cost(comb)
@@ -44,11 +50,15 @@ def best_combination(data_list):
 
                 if total_profit > profit:
                     profit = total_profit
-                    best_combinaison = comb
-    print(best_combinaison)
+                    best_comb = comb
+    print("Liste des actions les plus rentables : ")
+    for i in best_comb:
+        print(i)
+    print("le profil est de : ", profit)
+    print(f'Temps d execution: {time() - start} seconds')
 
 
-#-----------------  Execution ------------------------
+#--------------------------------  Execution du programmes  ------------------------
 
 csv_data = read_csv_file()
 best_combination(csv_data)
