@@ -2,8 +2,6 @@ import csv
 from itertools import combinations
 from time import time
 
-
-
 def read_csv_file():
     with open("data_part1.csv") as csvfile:
         data = csv.reader(csvfile, delimiter=',')
