@@ -3,6 +3,7 @@ from itertools import combinations
 from time import time
 from tqdm import tqdm
 
+
 def read_csv_file():
     """
     :return : liste de données à analyser
@@ -14,7 +15,6 @@ def read_csv_file():
         data_list = []
         for row in data:
             data_list.append((row[0], float(row[1]), float(row[2])))
-        #print(data_list)
         return data_list
 
 
@@ -33,13 +33,18 @@ def calculate_cost(combination):
     # retourner la somme des cout de la combinaison passée en paramètre
     return sum(cost)
 
-Max_invest = 500
+
+MAX_INVEST = 500
+
+
 def best_combination(data_list):
     """
     :param data_list: la liste des données à anayser
-    :return: le meilleur profit, le Total investissement, la liste des actions
-    Cette fonction donne comme résultat le meilleur profit et la liste des actions les plus rentables
-    tout en respectant le montant total d'investissment de 500 euro, ce résultat est basé sur l'analyse de toutes
+    :return: le meilleur profit, le Total investissement,
+    la liste des actions Cette fonction donne comme résultat
+    le meilleur profit et la liste des actions les plus rentables
+    tout en respectant le montant total d'investissment de 500 euro,
+    ce résultat est basé sur l'analyse de toutes
     les combinaisons possibles d'actions.
     """
     start = time()
@@ -48,13 +53,10 @@ def best_combination(data_list):
 
     for i in tqdm(range(len(data_list))):
         combs = combinations(data_list, i+1)
-        # print(i+1)
-        # print("test de combinaison",list(combs))
-
         for comb in combs:
             total_cost = calculate_cost(comb)
 
-            if total_cost <= Max_invest:
+            if total_cost <= MAX_INVEST:
                 total_profit = calculate_profit(comb)
 
                 if total_profit > profit:
@@ -63,7 +65,7 @@ def best_combination(data_list):
                     best_comb = comb
 
     print("Liste des actions les plus rentables : ")
-    print(len(best_comb),"actions")
+    print(len(best_comb), "actions")
     for i in best_comb:
         print(i)
     print("-- le profil est de : ", profit)
@@ -71,9 +73,7 @@ def best_combination(data_list):
     print(f'Temps d execution: {time() - start} seconds')
 
 
-#--------------------------------  Execution du programmes  ------------------------
+# -----------------------  Execution du programmes  ------------------------
 
 csv_data = read_csv_file()
 best_combination(csv_data)
-
-
